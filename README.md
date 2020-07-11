@@ -1,6 +1,6 @@
 # Film Club
 
-![Pandemic Film Club](./images/Pandemic Film Club.PNG)
+![Pandemic Film Club](https://github.com/abeciana1/ruby-project-mod-1/blob/master/images/Pandemic%20Film%20Club.PNG)
 
 ### Developed by Alex Beciana
 
