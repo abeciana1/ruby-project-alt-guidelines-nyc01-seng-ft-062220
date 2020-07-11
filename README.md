@@ -1,5 +1,7 @@
 # Film Club
 
+![Pandemic Film Club](./images/Pandemic Film Club.PNG)
+
 ### Developed by Alex Beciana
 
 ## Specs
