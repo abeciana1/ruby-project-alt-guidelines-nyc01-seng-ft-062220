@@ -3,6 +3,8 @@ require 'net/http'
 require 'openssl'
 require 'json'
 require 'pry'
+require 'dotenv'
+Dotenv.load
   
 class MovieData
 
@@ -16,13 +18,14 @@ class MovieData
   
     request = Net::HTTP::Get.new(input_url)
     request["x-rapidapi-host"] = 'movie-database-imdb-alternative.p.rapidapi.com'
-    request["x-rapidapi-key"] = '9e12ec2159msh69018ee268c2872p1eefffjsne2d01d87e5e6'
+    request["x-rapidapi-key"] = ENV['IMDB_API_KEY'].split("'")[1]
 
     response = http.request(request)
     data = JSON.pretty_generate(JSON.parse(response.body))
     # binding.pry
   
     res = JSON.parse(data)
+    # binding.pry
     imdbid = res["Search"][0]["imdbID"]
     
     res_url = URI("https://movie-database-imdb-alternative.p.rapidapi.com/?i=#{imdbid}&r=json")
@@ -32,7 +35,7 @@ class MovieData
 
     search_request = Net::HTTP::Get.new(res_url)
     search_request["x-rapidapi-host"] = 'movie-database-imdb-alternative.p.rapidapi.com'
-    search_request["x-rapidapi-key"] = '9e12ec2159msh69018ee268c2872p1eefffjsne2d01d87e5e6'
+    search_request["x-rapidapi-key"] = ENV['IMDB_API_KEY'].split("'")[1]
 
 
     search_response = http.request(search_request)

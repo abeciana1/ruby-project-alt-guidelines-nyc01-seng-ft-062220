@@ -11,3 +11,7 @@ tmp
 *.swp
 
 db/*.db
+
+*.env
+# Ignore application configuration
+/config/application.yml

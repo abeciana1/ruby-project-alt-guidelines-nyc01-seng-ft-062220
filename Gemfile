@@ -10,3 +10,5 @@ gem "faker"
 gem 'tty-prompt'
 gem "rake"
 gem "colorize"
+gem "dotenv"
+gem "figaro"

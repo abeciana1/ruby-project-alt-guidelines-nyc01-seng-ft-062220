@@ -1,5 +1,7 @@
 require "pry"
 require 'colorize'
+require 'dotenv'
+Dotenv.load
 require_relative './get_imdb_data.rb'
 require_relative './easter_egg.rb'
 
