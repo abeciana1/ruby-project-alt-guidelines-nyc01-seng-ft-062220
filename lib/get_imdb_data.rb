@@ -10,7 +10,6 @@ class MovieData
 
   def self.mov(user_input)
     input_url = URI("https://movie-database-imdb-alternative.p.rapidapi.com/?page=1&r=json&s=#{user_input}")
-    # .query.split("&s=")[1]
 
     http = Net::HTTP.new(input_url.host, input_url.port)
     http.use_ssl = true
@@ -18,14 +17,12 @@ class MovieData
   
     request = Net::HTTP::Get.new(input_url)
     request["x-rapidapi-host"] = 'movie-database-imdb-alternative.p.rapidapi.com'
-    request["x-rapidapi-key"] = ENV['IMDB_API_KEY'].split("'")[1]
+    request["x-rapidapi-key"] = ENV['IMDB_API_KEY'].split("'")[0]
 
     response = http.request(request)
     data = JSON.pretty_generate(JSON.parse(response.body))
-    # binding.pry
   
     res = JSON.parse(data)
-    # binding.pry
     imdbid = res["Search"][0]["imdbID"]
     
     res_url = URI("https://movie-database-imdb-alternative.p.rapidapi.com/?i=#{imdbid}&r=json")
@@ -35,14 +32,14 @@ class MovieData
 
     search_request = Net::HTTP::Get.new(res_url)
     search_request["x-rapidapi-host"] = 'movie-database-imdb-alternative.p.rapidapi.com'
-    search_request["x-rapidapi-key"] = ENV['IMDB_API_KEY'].split("'")[1]
+    search_request["x-rapidapi-key"] = ENV['IMDB_API_KEY'].split("'")[0]
 
 
     search_response = http.request(search_request)
     search_result = JSON.pretty_generate(JSON.parse(search_response.body))
-    # binding.pry
+
     result_data = JSON.parse(search_result)
-    # binding.pry
+
     if result_data["Type"] == "movie"
       puts title = "Movie Title: #{result_data["Title"]}"
       puts year = "Release Year: #{result_data["Year"].to_i}"
@@ -60,7 +57,23 @@ class MovieData
       puts imdb_rating = "Imdb Rating: #{result_data["imdbRating"].to_f}"
       puts production = "Production: #{result_data["production"]}"
       puts link_to_imdb = "Link to IMDB: https://www.imdb.com/title/#{imdbid}/"
-      Movie.create(imbdid: imdbid, title: title, year: year, rated: rating, runtime: runtime, genre: genre, director: director, writer: writer, actors: actors, plot: plot, language: language, country: country, awards: awards, poster_link: poster_link, imdb_rating: imdb_rating, production: production)
+      Movie.create(
+        imbdid: imdbid, 
+        title: result_data["Title"], 
+        year: result_data["Year"].to_i, 
+        rated: result_data["Rated"], 
+        runtime: result_data["Runtime"].split[0].to_i, 
+        genre: result_data["Genre"], 
+        director: result_data["Director"], 
+        writer: result_data["Writer"], 
+        actors: result_data["Actors"], 
+        plot: result_data["Plot"], 
+        language: result_data["Language"], 
+        country: result_data["Country"], 
+        awards: result_data["Awards"], 
+        poster_link: result_data["Poster"], 
+        imdb_rating: result_data["imdbRating"].to_f,
+        production: result_data["production"])
     else
       puts "Sorry, this search is only for movies"
     end

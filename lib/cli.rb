@@ -101,11 +101,14 @@ class CLI
     def self.create_account
         puts "Let's start with the basics, what's your name?"
         user_gives_name = gets.chomp
-        puts "Thanks, #{user_gives_name} please create a username:"
+        puts "Thanks, #{user_gives_name}, please create a username:"
         username_create = gets.chomp
         puts "One more thing, please create a password:"
         user_password_create = gets.chomp
         Member.create(name: "#{user_gives_name}", username: "#{username_create}", password: "#{user_password_create}")
+        puts "Thanks, #{user_gives_name}, thanks for creating your account."
+        puts "We're going to exit you out of the app now and then you can use the 'login' option."
+        exit
     end
 
     def self.log_in
@@ -267,3 +270,4 @@ class CLI
     end
 
 end
+
